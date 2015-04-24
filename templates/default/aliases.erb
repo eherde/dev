@@ -1,0 +1,89 @@
+<%= @header %>
+
+### Tools ###
+alias tree='tree -C' # tree with colorization
+alias ltree='\tree -n | less' # tree for scrolling
+alias todo='vim ~/.TODO' # quickly open todo list
+alias notes='vim ~/.notes' # quickly open notes
+alias gob='go build' # quickly build go programs
+alias got='go test'
+alias mc='make clean'
+alias psa='ps auxwf | less' # browse process list
+
+### Navigation ###
+alias ...='cd ../..'
+alias ....='cd ../../..'
+alias .....='cd ../../../..'
+
+### Git ###
+alias gb='git branch --verbose --verbose' # very verbose list
+alias gbr='git branch --color=always --remote | more' # colorize list
+alias gd='git diff'
+alias gdc='git diff --cached'
+alias glg='git log --pretty=format:user:%aN%n%ct --reverse --raw --encoding=UTF-8 --no-renames'
+alias gll='git log `git rev-parse --symbolic-full-name --abbrev-ref @{upstream}`..`git rev-parse --symbolic-full-name --abbrev-ref HEAD`' # look at what we have
+alias glr='git log `git rev-parse --symbolic-full-name --abbrev-ref HEAD`..`git rev-parse --symbolic-full-name --abbrev-ref @{upstream}`' # look at what remote has
+alias gs='git status'
+alias gin='git remote show `git remote` | less' # gather information about all remotes
+alias gfixup='git commit --amend --reuse-message HEAD' # squash index into HEAD
+alias gnewbranch='git push origin --set-upstream `git rev-parse --symbolic-full-name --abbrev-ref HEAD`' # push the current branch to origin
+
+# See .gitconfig
+alias gl='git l'
+alias gla='git la'
+alias glm='git lm'
+alias glf='git lf'
+alias glp='git lp'
+alias gli='git lmine'
+
+### Functions ###
+
+# invoke make in parallel
+function pmake()
+{
+	make -j $(($(nproc) * 2)) $@
+}
+
+# invoke cscope for a given git repository
+function cs()
+{
+	local p=$(pwd)
+	while [ "${p}" != "/" ]; do
+		if [ -d "${p}/.git" ]; then break; fi
+		p=$(readlink --canonicalize-existing ${p}/..)
+	done
+	if ! [ -d "${p}/.git" ]; then echo "No git repository found."; return 1; fi
+	echo "Building cscope database for $(basename ${p})"
+	find ${p} -name "*.[ch]" | cscope -b -i - -f "${p}/.git/cscope.out"
+}
+
+# zsh function to add ctags to go projects
+function gotag() {
+	# behave like bash
+	set -o shwordsplit
+	standards="$(go list -f '{{.Imports}}' | tr -d "[" | tr -d "]" | xargs go list -f '{{if .Standard}}{{.ImportPath}}{{end}}')"
+	externals="$(go list -f '{{.Imports}}' | tr -d "[" | tr -d "]" | xargs go list -f '{{if not .Standard}}{{.ImportPath}}{{end}}')"
+	# build paths from GOROOT
+	local -a paths
+	for pkg in ${standards}; do
+		paths+=(${GOROOT}/src/$pkg)
+	done
+	# build paths from GOPATH
+	for pkg in ${externals}; do
+		paths+=(${GOPATH}/src/$pkg)
+	done
+	ctags --recurse $paths *.go
+}
+
+# preferred grep invocation
+function sgrep() {
+	grep --with-filename --line-number --recursive --binary-files=without-match --ignore-case --exclude 'tags' --exclude 'cscope.*' --exclude-dir ".git" $@
+}
+
+# run a command in another pane and wait
+function tmw()
+{
+	tmux split-window -dh "$*; $SHELL"
+}
+
+# vim: syntax=zsh
