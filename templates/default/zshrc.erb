@@ -69,4 +69,7 @@ test -f /etc/profile.d/colorls.sh && source $_ # export LS_COLORS
 test -f /etc/profile.d/ccache.sh && source $_ # use ccache
 test -f /etc/profile.d/colorgcc.sh && source $_ # use color gcc
 
+# source any unmanaged files that match the naming convention
+for rc in .*env_local*; source $rc
+
 # vim: syntax=zsh
