@@ -27,3 +27,13 @@ template "#{home}/.aliases" do
     :header => header
   })
 end
+
+template "#{home}/.envrc" do
+  owner node[:user]
+  group node[:user]
+  mode '0600'
+  source 'envrc.erb'
+  variables({
+    :header => header
+  })
+end

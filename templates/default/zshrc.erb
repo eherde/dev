@@ -64,6 +64,9 @@ RPROMPT='${vcs_info_msg_0_} $prompt_remotes$prompt_stash'\ $RPROMPT # add git in
 
 ### Sources ###
 source ~/.aliases # aliases
-test -f /etc/profile.d/colorls.sh && source $_
+source ~/.envrc # environment variables
+test -f /etc/profile.d/colorls.sh && source $_ # export LS_COLORS
+test -f /etc/profile.d/ccache.sh && source $_ # use ccache
+test -f /etc/profile.d/colorgcc.sh && source $_ # use color gcc
 
 # vim: syntax=zsh

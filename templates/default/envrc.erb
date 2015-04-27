@@ -1,0 +1,22 @@
+<%= @header %>
+
+case ":${PATH:-}:" in
+	*:$HOME/bin:*) ;;
+	*) PATH=$HOME/bin:$PATH
+esac
+
+command -v go >/dev/null 2>&1
+if [ $? -eq 0 ]; then
+	eval $(go env)
+	export GOPATH=$HOME/ws/go
+	case ":${PATH:-}:" in
+		*:$GOROOT/bin:*) ;;
+		*) PATH=$PATH:$GOROOT/bin
+	esac
+	case ":${PATH:-}:" in
+		*:$GOPATH/bin:*) ;;
+		*) PATH=$PATH:$GOPATH/bin
+	esac
+fi
+
+# vim: syntax=zsh
