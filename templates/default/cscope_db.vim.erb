@@ -1,0 +1,19 @@
+<%= @header %>
+
+" check if vim has cscope support
+if has("cscope")
+
+	" Determine the name of the current project
+	let found = getcwd()
+	while !isdirectory(found . '/.git') && found != "/"
+		let found = fnamemodify(found, ':h')
+	endwhile
+	let proj = fnamemodify(found, ':t')
+	let db = '/tmp/cscope.' . proj . '.out'
+	if filereadable(db)
+		set nocscopeverbose
+		let $CSCOPE_DB = db
+	endif
+endif
+
+" vim: syntax=vim

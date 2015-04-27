@@ -58,3 +58,20 @@ remote_file "#{home}/.vim/plugin/gcov.vim" do
   mode '0600'
   source 'http://www.vim.org/scripts/download_script.php?src_id=8141'
 end
+
+remote_file "#{home}/.vim/plugin/cscope_maps.vim" do
+  owner node[:user]
+  group node[:user]
+  mode '0600'
+  source 'http://cscope.sourceforge.net/cscope_maps.vim'
+end
+
+template "#{home}/.vim/plugin/cscope_db.vim" do
+  owner node[:user]
+  group node[:user]
+  mode '0600'
+  source 'cscope_db.vim.erb'
+  variables({
+    :header => header
+  })
+end

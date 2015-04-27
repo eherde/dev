@@ -53,8 +53,9 @@ function cs()
 		p=$(readlink --canonicalize-existing ${p}/..)
 	done
 	if ! [ -d "${p}/.git" ]; then echo "No git repository found."; return 1; fi
-	echo "Building cscope database for $(basename ${p})"
-	find ${p} -name "*.[ch]" | cscope -b -i - -f "${p}/.git/cscope.out"
+	local name=$(basename ${p})
+	echo "Building cscope database for $name"
+	find ${p} -name "*.[ch]" | cscope -b -i - -f "/tmp/cscope.$name.out"
 }
 
 # zsh function to add ctags to go projects
