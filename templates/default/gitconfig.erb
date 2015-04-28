@@ -1,0 +1,40 @@
+<%= @header %>
+
+[alias]
+	b = branch --verbose --verbose
+	c = checkout
+	d = diff
+	l = log --pretty='%C(auto)%h %d %s %C(blue bold)[%an]%Creset %C(cyan)%cr' --graph
+	la = log --all --pretty='%C(auto)%h %d %s %C(blue bold)[%an]%Creset %C(cyan)%cr' --graph
+	lf = log --name-status
+	li = log --author='Eric Herde'
+	lm = log --pretty=fuller
+	lp = log --stat -1 -p
+
+[color]
+	branch = auto
+	diff = auto
+	grep = auto
+	status = auto
+
+[core]
+	editor = vi
+	pager = less -+$LESS -FRX
+
+[gc]
+	reflogexpire = 365
+
+[init]
+	templatedir = <%= @templatedir %>
+
+[log]
+	decorate = short
+
+[push]
+	default = tracking
+
+[status]
+	short = true
+
+[user]
+	name = Eric Herde
