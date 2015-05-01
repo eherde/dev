@@ -1,0 +1,9 @@
+#!/bin/sh
+set -e
+dir="`git rev-parse --git-dir`"
+trap 'rm -f "$dir/$$.cscope.out"' EXIT
+path=$(readlink -e "$dir/..")
+find "$path" -name "*.[ch]" | \
+	cscope -b -i - -f "$dir/$$.cscope.out"
+mv "$dir/$$.cscope.out" "$dir/cscope.out"
+# vim: syntax=sh

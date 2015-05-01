@@ -28,22 +28,32 @@ end
   end
 end
 
+template "#{templatedir}/hooks/ctags" do
+  owner node[:user]
+  group node[:user]
+  mode '0700'
+  source 'ctags.erb'
+end
+
+template "#{templatedir}/hooks/cscope" do
+  owner node[:user]
+  group node[:user]
+  mode '0700'
+  source 'cscope.erb'
+end
+
+['post-commit', 'post-merge', 'post-checkout'].each do |name|
+  template "#{templatedir}/hooks/#{name}" do
+    owner node[:user]
+    group node[:user]
+    mode '0700'
+    source 'hook'
+  end
+end
+
 template "#{templatedir}/hooks/pre-commit" do
   owner node[:user]
   group node[:user]
   mode '0700'
   source 'pre-commit.erb'
-  variables({
-    :header => header
-  })
-end
-
-template "#{templatedir}/hooks/post-checkout" do
-  owner node[:user]
-  group node[:user]
-  mode '0700'
-  source 'post-checkout.erb'
-  variables({
-    :header => header
-  })
 end
