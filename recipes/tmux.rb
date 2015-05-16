@@ -6,11 +6,9 @@
 
 header = "### Generate by Chef. DO NOT EDIT! ###"
 
-home = node['etc']['passwd'][node[:user]]['dir']
-
-template "#{home}/.tmux.conf" do
-  owner node[:user]
-  group node[:user]
+template "#{node.home}/.tmux.conf" do
+  owner node.current_user
+  group node.current_user
   mode '0600'
   source 'tmux.conf.erb'
   variables({

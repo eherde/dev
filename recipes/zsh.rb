@@ -6,9 +6,7 @@
 
 header = "### Generate by Chef. DO NOT EDIT! ###"
 
-home = node['etc']['passwd'][node[:user]]['dir']
-
-template "#{home}/.zshrc" do
+template "#{node.home}/.zshrc" do
   owner node[:user]
   group node[:user]
   mode '0600'
@@ -18,7 +16,7 @@ template "#{home}/.zshrc" do
   })
 end
 
-template "#{home}/.aliases" do
+template "#{node.home}/.aliases" do
   owner node[:user]
   group node[:user]
   mode '0600'
@@ -28,7 +26,7 @@ template "#{home}/.aliases" do
   })
 end
 
-template "#{home}/.envrc" do
+template "#{node.home}/.envrc" do
   owner node[:user]
   group node[:user]
   mode '0600'
