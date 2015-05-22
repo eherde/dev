@@ -6,7 +6,7 @@
 
 header = "### Generate by Chef. DO NOT EDIT! ###"
 
-template "#{node.home}/.tmux.conf" do
+template "#{node.dev.home}/.tmux.conf" do
   owner node.current_user
   group node.current_user
   mode '0600'

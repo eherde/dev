@@ -6,9 +6,9 @@
 
 header = "### Generate by Chef. DO NOT EDIT! ###"
 
-templatedir = "#{node.home}/.git_template"
+templatedir = "#{node.dev.home}/.git_template"
 
-template "#{node.home}/.gitconfig" do
+template "#{node.dev.home}/.gitconfig" do
   owner node.current_user
   group node.current_user
   mode '0600'
