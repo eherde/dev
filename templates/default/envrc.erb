@@ -19,4 +19,8 @@ if [ $? -eq 0 ]; then
 	esac
 fi
 
+if [ "$TERM" = "screen" -o "$TERM" = "dummy" ]; then
+	export TERM="xterm"
+fi
+
 # vim: syntax=zsh
