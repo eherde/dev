@@ -7,8 +7,6 @@
 header = "### Generate by Chef. DO NOT EDIT! ###"
 
 template "#{node.dev.home}/.zshrc" do
-  owner node[:user]
-  group node[:user]
   mode '0600'
   source 'zshrc.erb'
   variables({
@@ -17,8 +15,6 @@ template "#{node.dev.home}/.zshrc" do
 end
 
 template "#{node.dev.home}/.aliases" do
-  owner node[:user]
-  group node[:user]
   mode '0600'
   source 'aliases.erb'
   variables({
@@ -27,8 +23,6 @@ template "#{node.dev.home}/.aliases" do
 end
 
 template "#{node.dev.home}/.envrc" do
-  owner node[:user]
-  group node[:user]
   mode '0600'
   source 'envrc.erb'
   variables({
