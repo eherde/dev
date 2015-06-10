@@ -70,6 +70,7 @@ test -f /etc/profile.d/ccache.sh && source $_ # use ccache
 test -f /etc/profile.d/colorgcc.sh && source $_ # use color gcc
 
 # source any unmanaged files that match the naming convention
+setopt null_glob
 for rc in ~/.*env_local*; source $rc
 
 # vim: syntax=zsh
