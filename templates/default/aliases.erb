@@ -27,6 +27,7 @@ alias gs='git status'
 alias gin='git remote show `git remote` | less' # gather information about all remotes
 alias gfixup='git commit --amend --reuse-message HEAD' # squash index into HEAD
 alias gnewbranch='git push origin --set-upstream `git rev-parse --symbolic-full-name --abbrev-ref HEAD`' # push the current branch to origin
+alias gte='git tag `git describe --abbrev=0 --tags` `git describe --abbrev=0 --tags` -f -a' # edit the latest tag
 
 # See .gitconfig
 alias gl='git l'
