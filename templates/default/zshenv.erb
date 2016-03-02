@@ -1,0 +1,45 @@
+<%= @header %>
+
+PATH=/usr/local/bin:/usr/bin:/bin:/usr/local/sbin:/usr/sbin:/sbin
+
+# add home bin if it exists
+if [ -d $HOME/bin ]; then
+	case ":${PATH:-}:" in
+		*:$HOME/bin:*) ;;
+		*) PATH=$HOME/bin:$PATH
+	esac
+fi
+
+# if go is installed, setup go environment
+if [ -L $HOME/golang ]; then
+	export GOROOT=$HOME/golang
+	case ":${PATH:-}:" in
+		*:$GOROOT/bin:*) ;;
+		*) PATH=$GOROOT/bin:$PATH
+	esac
+	eval $(go env)
+	export GOPATH=$HOME/ws/go
+	case ":${PATH:-}:" in
+		*:$GOPATH/bin:*) ;;
+		*) PATH=$GOPATH/bin:$PATH
+	esac
+fi
+
+# if ccache is installed, setup ccache environment
+command -v ccache >/dev/null 2>&1
+if [ $? -eq 0 ]; then
+	gcc=$(which gcc)
+	export CCACHE_PATH=${gcc%/*}
+fi
+
+# if colorgcc is installed, setup colorgcc environment
+command -v colorgcc >/dev/null 2>&1
+if [ $? -eq 0 ]; then
+	cgcclinksdir=/usr/local/bin/colorgcc
+	case ":${PATH:-:}" in
+		*:$cgcclinksdir:*) ;;
+		*) PATH=$cgcclinksdir:$PATH
+	esac
+fi
+
+# vim: syntax=sh
